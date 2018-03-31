@@ -1,8 +1,6 @@
 # CarND-Semantic-Segmentation-P2
 Udacity Self-Driving Car Nanodegree - Semantic Segmentation Project
 
-![Road](images/road.gif)
-
 # Overview
 
 The object of this project is to label the pixels of a road image using the Fully Convolutional Network (FCN) described in the [Fully Convolutional Networks for Semantic Segmentation](https://people.eecs.berkeley.edu/~jonlong/long_shelhamer_fcn.pdf) by Jonathan Long, Even Shelhamer, and Trevor Darrel. The project is based on the starting project provided by Udacity in [this repo](https://github.com/udacity/CarND-Semantic-Segmentation).
@@ -22,7 +20,10 @@ The dataset used in this project is the [Kitti Road dataset](http://www.cvlibs.n
 
 # Code description
 
-Most of the code is inside [`main.py`](./main.py) [`run`](./main.py#L178) method. The code downloads a pre-trained VGG16 model and extract the input, keep probability, layer 3, layer 4 and layer 7 from it (method [`load_vgg`](./main.py#L20) from line 20 to line 44). Those layers are used in the [`layers`](./main.py#L49) to create the rest of the network:
+Most of the code is inside [`main.ipynb`](./main.ipynb). 
+I used Alicloud, which does not allow me to download anything from S3, so I downloaded the VGG16 model first and upload to the cloud server.
+
+The code then extracts the input, keep probability, layer 3, layer 4 and layer 7 from it (method `load_vgg`). Those layers are used in the `layers` function  to create the rest of the network:
 
 - One convolutional layer with kernel 1 from VGG's layer 7 ([line 62](./main.py#L62)).
 - One deconvolutional layer with kernel 4 and stride 2 from the first convolutional layer ([line 70](./main.py#L70)).
