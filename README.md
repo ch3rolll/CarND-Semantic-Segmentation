@@ -14,8 +14,6 @@ Based on Udacity's start project the following frameworks and packages should be
 - [NumPy](http://www.numpy.org/)
 - [SciPy](https://www.scipy.org/)
 
-I provide an environment configuration on [environment.yml](./environment.yml) in order to reproduce the package selection. I used it to make sure the basic of the code was working properly, but without access to a local GPU, the code ran too slow. To run code properly, I created a Spot instance on AWS following the procedure explained in the class with the Udacity's udacity-cardnf-advanced-deep-learning Comunity AMI. The instance type was `g3.4xlarge`. The only package I have to install manually was (tqdm)[https://pypi.python.org/pypi/tqdm].
-
 The dataset used in this project is the [Kitti Road dataset](http://www.cvlibs.net/datasets/kitti/eval_road.php). It could be download from [here](http://www.cvlibs.net/download.php?file=data_road.zip) or use the script [download_images.sh](./data/download_images.sh).
 
 # Code description
@@ -59,12 +57,16 @@ The result for 6 epochs is just bad. The mean for loss is about 0.7. It may help
 
 ## 24 Epochs
 
+After training for 24 epochs, the result becomes acceptable.
+
 ![](pics/24e_1.png)
 ![](pics/24e_2.png)
 ![](pics/24e_3.png)
 
 
 ## 48 Epochs
+
+After 48 epochs, the result is just amazing!
 
 ![](pics/48e_1.png)
 ![](pics/48e_2.png)
