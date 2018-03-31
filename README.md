@@ -25,77 +25,48 @@ I used Alicloud, which does not allow me to download anything from S3, so I down
 
 The code then extracts the input, keep probability, layer 3, layer 4 and layer 7 from it (method `load_vgg`). Those layers are used in the `layers` function  to create the rest of the network:
 
-- One convolutional layer with kernel 1 from VGG's layer 7 ([line 62](./main.py#L62)).
-- One deconvolutional layer with kernel 4 and stride 2 from the first convolutional layer ([line 70](./main.py#L70)).
-- One convolutional layer with kernel 1 from VGG's layer 4 ([line 78](./main.py#L78)).
-- The two layers above are added to create the first skip layer ([line 86](./main.py#L86)).
-- One deconvolutional layer with kernel 4 and stride 2 from the first ship layer ([line 88](./main.py#L88)).
-- One convolutional layer with kernel 1 from VGG's layer 3 ([line 96](./main.py#L96)).
-- The two layers above are added to create the second skip layer ([line 104](./main.py#L104)).
-- One deconvolutional layer with kernel 16 and stride 8 from the second skip layer ([line 106](./main.py#L106)).
+- One convolutional layer with kernel 1 from VGG's layer 7.
+- One deconvolutional layer with kernel 4 and stride 2 from the first convolutional layer.
+- One convolutional layer with kernel 1 from VGG's layer 4.
+- The two layers above are added to create the first skip layer.
+- One deconvolutional layer with kernel 4 and stride 2 from the first skip layer.
+- One convolutional layer with kernel 1 from VGG's layer 3.
+- The two layers above are added to create the second skip layer .
+- One deconvolutional layer with kernel 16 and stride 8 from the second skip laye.
 
-Every created convolutional and deconvolutional layer use a random-normal kernel initializer with standard deviation 0.01 and a L2 kernel regularizer with L2 0.001.
+Every created convolutional and deconvolutional layer use a L2 kernel regularizer with L2 0.001. I did not use a  kernel initializer. Maybe I will try that later
 
-Once the network structure is defined, the optimizer and the cross-entropy lost is defined on the [`optimize`](./main.py#L116)(from line 116 to line 136) method using [Adam optimizer](https://en.wikipedia.org/wiki/Stochastic_gradient_descent#Adam).
+With the network structure set, the optimizer and the cross-entropy lost is defined on the `optimize` method using `Adam optimizer`, which is the most popular one.
 
-The network is trained using the [`train_nn`](./main.py#L140) (from line 140 to line 174) using keep probability 0.5 and learning rate 0.00001. To facilitate the loss value analysis, later on, every batch loss values are stored in an array, and the array is printed for each epoch.
+The network is trained using the `train_nn` using keep probability of `0.5` and learning rate `1e-4`.
+
+For some reason, the jupyter notebook is messed up with the tensorflow sessions, which only prints to console. So I just copied the values from the console. Please let me know if anything could solve that unexpected behaviour for tf.InteractiveSession(). Googled a lot but did not find anything to make it work.
 
 # Training
 
 The dataset used for training the network was
-The network training was done for 6, 12, 24 and 48 epochs. The following graphs show the loss after each epoch:
-
-![6 Epochs](images/loss_epoch_6.png)
-
-![12 Epochs](images/loss_epoch_12.png)
-
-![24 Epochs](images/loss_epoch_24.png)
-
-![48 Epochs](images/loss_epoch_48.png)
-
-The last epoch loss mean and standard deviation were:
-
-- 6 Epoch   =>    Mean: 0.425847    Std: 0.037720
-- 12 Epoch  =>    Mean: 0.122803    Std: 0.016831
-- 24 Epoch  =>    Mean: 0.073090    Std: 0.015247
-- 48 Epoch  =>    Mean: 0.041946    Std: 0.007950
+The network training was done for 6, 24 and 48 epochs. The following graphs show the loss after each epoch:
 
 # Sample images
 
-It was fascinating to see how the segmentation improve when the epochs increase.
-
 ## 6 Epochs
 
-![um_000003](images/epoch6/um_000003.png)
-![um_000036](images/epoch6/um_000036.png)
-![umm_000014](images/epoch6/umm_000014.png)
-![umm_000031](images/epoch6/umm_000031.png)
-![uu_000026](images/epoch6/uu_000026.png)
-![uu_000047](images/epoch6/uu_000047.png)
+The result for 6 epochs is just bad. The mean for loss is about 0.7. It may help if we have a random kernal initializer with a certain value of mean and vairance.
 
-## 12 Epochs
+![](pics/6e_1.png)
+![](pics/6e_2.png)
 
-![um_000003](images/epoch12/um_000003.png)
-![um_000036](images/epoch12/um_000036.png)
-![umm_000014](images/epoch12/umm_000014.png)
-![umm_000031](images/epoch12/umm_000031.png)
-![uu_000026](images/epoch12/uu_000026.png)
-![uu_000047](images/epoch12/uu_000047.png)
 
 ## 24 Epochs
 
-![um_000003](images/epoch24/um_000003.png)
-![um_000036](images/epoch24/um_000036.png)
-![umm_000014](images/epoch24/umm_000014.png)
-![umm_000031](images/epoch24/umm_000031.png)
-![uu_000026](images/epoch24/uu_000026.png)
-![uu_000047](images/epoch24/uu_000047.png)
+![](pics/24e_1.png)
+![](pics/24e_2.png)
+![](pics/24e_3.png)
+
 
 ## 48 Epochs
 
-![um_000003](images/epoch48/um_000003.png)
-![um_000036](images/epoch48/um_000036.png)
-![umm_000014](images/epoch48/umm_000014.png)
-![umm_000031](images/epoch48/umm_000031.png)
-![uu_000026](images/epoch48/uu_000026.png)
-![uu_000047](images/epoch48/uu_000047.png)
+![](pics/48e_1.png)
+![](pics/48e_2.png)
+![](pics/48e_3.png)
+![](pics/48e_4.png)
